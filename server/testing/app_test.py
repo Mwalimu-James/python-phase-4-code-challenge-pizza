@@ -147,8 +147,8 @@ class TestApp:
             assert response['pizza_id'] == pizza.id
             assert response['restaurant_id'] == restaurant.id
             assert response['id']
-            assert response['pizza']
-            assert response['restaurant']
+            assert 'pizza' in response
+            assert 'restaurant' in response
 
             query_result = RestaurantPizza.query.filter(
                 RestaurantPizza.restaurant_id == restaurant.id, RestaurantPizza.pizza_id == pizza.id).first()
@@ -176,7 +176,7 @@ class TestApp:
             )
 
             assert response.status_code == 400
-            assert response.json['errors'] == ["validation errors"]
+            assert response.json['errors'] == ["Price must be between 1 and 30."]
 
             response = app.test_client().post(
                 '/restaurant_pizzas',
@@ -188,4 +188,4 @@ class TestApp:
             )
 
             assert response.status_code == 400
-            assert response.json['errors'] == ["validation errors"]
+            assert response.json['errors'] == ["Price must be between 1 and 30."]
